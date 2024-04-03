@@ -29,7 +29,7 @@ export async function scrapeAndStoreProduct(productUrl: string){
             averagePrice: getAveragePrice(updatedPriceHistory)
         }
         }
-
+        //finds new product to be updated or created
         const newProduct = await Product.findOneAndUpdate({
             url: scrapedProduct.url},
             product,
@@ -41,4 +41,28 @@ export async function scrapeAndStoreProduct(productUrl: string){
     } catch (error: any) {
         throw new Error('An error occured while trying to scrape the product');
     }
+}
+
+export async function getProductById(productId: string){
+    try {
+        connectToDatabase();
+        const product = await Product.findOne({_id: productId})
+
+        if(!product) throw new Error('Product not found');
+        return product;
+    } catch (error: any) {
+        console.log(error);
+    }
+    
+}
+
+export async function getAllProducts(){
+try {
+    connectToDatabase();
+    const products = await Product.find();
+    return products;
+} catch (error: any) {
+    console.log(error);
+}
+
 }
