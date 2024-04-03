@@ -64,5 +64,26 @@ try {
 } catch (error: any) {
     console.log(error);
 }
+}
+export async function getSimilarProducts(productId: string){
+try {
+    connectToDatabase();
+    const currentproduct = await Product.findById(productId);
+    if(!currentproduct) throw new Error('Product not found');
 
+    const similarProducts = await Product.find({
+        _id: { $ne: productId }
+    }).limit(4);
+} catch (error: any) {
+    console.log(error);
+}
+
+}
+
+export async function addUserEmailToProduct(productId: string, userEmail: string){
+    try {
+        //send our first email
+    } catch (error:any) {
+        console.log(error)
+    }
 }
